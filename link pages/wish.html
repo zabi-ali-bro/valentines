@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Queen ❤️</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ---------- 1. RESET & BASE STYLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: #590d22;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        /* ---------- 2. VALENTINE'S ANIMATED BACKGROUND ---------- */
+        #valentine-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #ff4d6d, #c9184a, #590d22);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .heart-float {
+            position: absolute;
+            bottom: -100px;
+            font-size: 2rem;
+            animation: floatUp 10s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            to { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ---------- 3. HERO SECTION ---------- */
+        #main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #nav {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        #hero {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-title h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            text-transform: uppercase;
+            line-height: 0.9;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: #ffb3c1;
+            margin-top: 10px;
+        }
+
+        /* ---------- 4. BUTTON ---------- */
+        #btn__letter {
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        #btn__letter:hover {
+            background: white;
+            color: #c9184a;
+            transform: scale(1.05);
+        }
+
+        /* ---------- 5. RESPONSIVE MAIL BOX (MODAL) ---------- */
+        .boxMail {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            
+            /* Responsive Width and Height */
+            width: 90%; 
+            max-width: 550px;
+            max-height: 85vh; /* Prevents overflow on short screens */
+            
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            padding: 40px 30px;
+            z-index: 1000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* Enable scrolling for long text on small phones */
+            overflow-y: auto; 
+        }
+
+        .boxMail.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .boxMail h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4d6d;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .boxMail p {
+            line-height: 1.6;
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            text-align: center;
+            color: #444;
+        }
+
+        .close-mail {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #999;
+            transition: 0.3s;
+        }
+
+        .close-mail:hover {
+            color: #ff4d6d;
+        }
+
+        /* Overlay Background */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* ---------- 6. CUSTOM SCROLLBAR FOR BOX ---------- */
+        .boxMail::-webkit-scrollbar {
+            width: 6px;
+        }
+        .boxMail::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .boxMail::-webkit-scrollbar-thumb {
+            background: #ffb3c1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="valentine-bg"></div>
+    <div class="overlay" id="overlay"></div>
+
+    <div id="main">
+        <nav id="nav">
+            <div class="logo">MY QUEEN ❤️</div>
+            <div class="date">14 Feb 2026</div>
+        </nav>
+
+        <section id="hero">
+            <div class="hero-title">
+                <h1>HAPPY</h1>
+                <h1 style="color: #ffb3c1;">VALENTINES</h1>
+            </div>
+            <div class="hero-subtitle">For the one who rules my heart...</div>
+            
+            <button id="btn__letter">
+                Open Your Message, my queen <i class="fa-regular fa-envelope"></i>
+            </button>
+        </section>
+    </div>
+
+    <div class="boxMail" id="letterModal">
+        <span class="close-mail" id="closeBtn"><i class="fa-solid fa-xmark"></i></span>
+        <h2>To my queen...</h2>
+        <p>
+            You have a way of making every day feel a little brighter. Your kindness and gentle presence make ordinary moments feel special and comforting. The care you show to others leaves a lasting impression, reminding everyone around you how beautiful it is to feel seen and appreciated. 
+            <br><br>
+            Even without words or grand gestures, you bring warmth, calm, and a quiet joy that stays with me. Your heart has a way of making the world feel softer, happier, and more meaningful just by being the queen you are. 
+            <br><br>
+            Happy Valentine's Day! 💕
+        </p>
+    </div>
+
+    <script>
+        // 1. Generate Floating Hearts
+        const bg = document.getElementById('valentine-bg');
+        const heartIcons = ['❤️', '💖', '💗', '💓', '✨'];
+        
+        for (let i = 0; i < 15; i++) {
+            let heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            bg.appendChild(heart);
+        }
+
+        // 2. Modal Logic
+        const openBtn = document.getElementById('btn__letter');
+        const closeBtn = document.getElementById('closeBtn');
+        const modal = document.getElementById('letterModal');
+        const overlay = document.getElementById('overlay');
+
+        const openModal = () => {
+            modal.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        };
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+    </script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+/* ---------- Valentine's Animated Background ---------- */
+#birthday-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background-color: #800f2f; /* Base Valentine Theme Color */
+}
+
+#birthday-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Updated to Deep Red and Pink Gradient */
+    background: linear-gradient(120deg, #800f2f, #a4133c, #c9184a, #ff4d6d);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: -2;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Floating Hearts (Replaces Balloons) */
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 30px;
+    height: 30px;
+    background: #ff4d6d;
+    /* Heart Shape Clip-path */
+    clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+    animation: floatUp linear infinite;
+}
+
+/* Removed balloon strings for hearts */
+.balloon::after {
+    display: none;
+}
+
+.balloon:nth-child(1) { background: #ff758f; left: 10%; animation-duration: 6s; transform: scale(0.8); }
+.balloon:nth-child(2) { background: #ff4d6d; left: 30%; animation-duration: 8s; transform: scale(1.2); }
+.balloon:nth-child(3) { background: #c9184a; left: 50%; animation-duration: 7s; transform: scale(1); }
+.balloon:nth-child(4) { background: #ff8fa3; left: 70%; animation-duration: 9s; transform: scale(0.9); }
+.balloon:nth-child(5) { background: #800f2f; left: 90%; animation-duration: 6.5s; transform: scale(1.1); }
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+}
+
+/* Falling Petals (Replaces Confetti) */
+.confetti {
+    position: absolute;
+    width: 15px;
+    height: 18px;
+    top: -20px;
+    background: #ff4d6d;
+    /* Petal Shape */
+    border-radius: 150% 0 150% 0;
+    animation: fall linear infinite;
+}
+
+.confetti:nth-child(1) { left: 5%; animation-duration: 4s; background: #a4133c; }
+.confetti:nth-child(2) { left: 15%; animation-duration: 6s; background: #ff8fa3; }
+.confetti:nth-child(3) { left: 25%; animation-duration: 5s; background: #c9184a; }
+.confetti:nth-child(4) { left: 35%; animation-duration: 7s; background: #ff4d6d; }
+.confetti:nth-child(5) { left: 45%; animation-duration: 4.5s; background: #800f2f; }
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(720deg) translateX(50px); }
+}
+
+/* ---------- Existing Styles ---------- */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "General Sans";
+}
+
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+#minicircle{
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    border-radius: 50%; 
+    transition: cubic-bezier(0.19, 1, 0.22, 1) 1s;  
+    transform: translate(-50%, -50%);   
+}
+
+.bounding{
+    width: 100%;  
+}
+
+.bounding .boundingelem{
+    transform: translateY(100%);
+}
+
+#main{
+    width: 100%;
+    height: auto;
+}
+
+#hero{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    color: #fff;
+}
+
+#nav{
+    width: 100%;
+    padding: 20px 40px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#nav a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#heading{
+    margin-top: 90px;
+}
+
+#heading h1{
+    margin-left: 30px;     
+    line-height: 1;
+    font-family: "General Sans Medium";
+    font-size: 8vw;
+    text-transform: uppercase;
+    font-weight: 900;
+    opacity: 0.6;
+}
+
+#heading #secondh1 {
+    margin-left: 5vh;
+}
+
+#bound{
+    overflow: hidden;
+}
+
+.blocktext{
+    width: fit-content;
+    margin-left: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.blocktext h5{
+    text-align: right ;
+    font-size: 15px;
+    text-transform: uppercase ;
+}
+
+#chotiheading{
+    margin-top: 100px;
+    padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+#chotiheading h5{
+    text-align: right ;
+    text-transform: uppercase;
+    margin-top: .5vw;
+    font-size: 1vw;
+}
+
+#herofotter{
+    position: absolute;
+    width: 100%;
+    bottom: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2vw;
+}
+
+#herofotter a{
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+#herofotter #iconset{
+    display: flex;
+    gap: 5px;
+}
+
+#herofotter .circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #888;
+}
+
+#second{
+    width: 100%;
+   
+    padding-top: 200px;
+    padding-right: 10vw;
+    color: #fff;
+}
+
+#second .linka {
+    text-decoration: none;
+    color: inherit;
+}
+
+.elem{
+    width: 100%;
+    border-top: 1px solid #888;
+    padding: 3.5vw 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 0;
+    position: relative;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+} 
+
+.elem:hover{
+    opacity: 0.5;
+    padding-left: 10vh;
+}
+
+.elem h1{
+    text-transform: uppercase;
+    font-size: 5.6vw;
+    opacity: 0.7;
+}
+
+.elemlast{
+    border-bottom: 1px solid #888;
+}
+
+.elem img{
+    opacity: 0;
+    position: absolute;
+    z-index: 999;
+    height: 140%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+#about{
+    width: 100%;
+    padding: 10vw 5vw;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    padding-left: 33vw;
+    
+}
+
+#textabout{
+    width: 25rem;
+}
+
+#textabout h5{
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+#textabout p{
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+#about #imgtag{
+    width: 310px;
+    border-radius: 50%;
+    background-blend-mode: soft-light;
+
+}
+
+#textabout a{
+    padding: 10px 22px;
+    border: 1px solid #fff;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+#subscribe{
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #fff;
+    padding: 20px 30px;
+    padding-bottom: 7vw;
+}
+
+#subscribe h5{
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+#subscribe h3{
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-top: 10px ;
+}
+
+#footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 30px;
+
+    color: #fff;
+}
+
+#footerleft{
+  display: flex; 
+  gap: 30px; 
+}
+
+#footerright{
+  display: flex;
+  gap: 20px;
+}
+
+#footer a{
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    #main{ overflow: hidden; }
+    #nav{ padding: 30px 25px; }
+    #nav a{ font-weight: 500; }
+    #heading h1{ margin-left: 20px; font-size: 13vw; }
+    #heading #secondh1 { margin-left: -110px; }
+    #boundelem{ font-size: 10px; }
+    #chotiheading #textbound{ font-size: 11px; display: flex; flex-direction: column; align-self: flex-end; }
+    #herofotter #iconset{ display: none; }
+    #herofotter a{ font-size: 12px; }
+    #second{ padding-top: 40px; }
+    .elem img{ display: none; }
+    #about{ padding: 5vw 5vw; flex-direction: column; padding-top: 60px; }
+    #about #imgtag{ width: 250px; }
+    #textabout{ width: 22rem; }
+    #textabout p{ font-size: 16px; }
+    #footer{ flex-direction: column-reverse; }
+    #footer a{ font-size: 14px; }
+    #footerright{ gap: 30px; padding-bottom: 15px; }
+    #footerleft{ gap: 220px; padding-top: 15px; }
+    #borderline{ width: 100%; height: 0.8px; background-color: #fff; }
+}
+
+@media (max-width: 380px) {
+    #herofotter{ position: relative; height: 70%; }
+    #second{ padding-top: 10px; }
+    #textabout{ width: 20rem; }
+    #footer a{ font-size: 12px; }
+    #about #imgtag{
+    width: 200px;
+    border-radius: 50%;
+    background-blend-mode: soft-light;
+}
+}

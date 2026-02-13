@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will you be mine? | For My Queen</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-color: #800f2f;
+            --bg-color: #ffe6e9;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            font-family: "Quicksand", sans-serif;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Container Styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .local-gif, .gif-result {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 25px rgba(128, 15, 47, 0.15);
+        }
+
+        .question {
+            font-size: clamp(1.8rem, 7vw, 3rem);
+            color: var(--primary-color);
+            font-family: 'Dancing Script', cursive;
+            margin-bottom: 2.5rem;
+            line-height: 1.2;
+        }
+
+        /* --- THE BUTTON GROUP --- */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            position: relative;
+            min-height: 60px; /* Space for the button height */
+        }
+
+        .btn {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            color: white;
+            box-shadow: 0px 4px 15px rgba(128, 15, 47, 0.2);
+            white-space: nowrap;
+        }
+
+        .yes-btn {
+            background-color: var(--primary-color);
+            z-index: 2;
+        }
+
+        .no-btn {
+            background-color: #c9184a;
+            z-index: 1;
+            /* No initial absolute positioning - starts next to Yes */
+        }
+
+        .btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Loader & Result display */
+        .result-container, .cssload-main {
+            display: none;
+        }
+
+        .result-container h2 {
+            font-size: clamp(2rem, 8vw, 3.2rem);
+            color: var(--primary-color);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Heart Beat Loader */
+        .cssload-heart {
+            position: relative;
+            width: 80px;
+            height: 70px;
+            animation: beat 0.8s infinite;
+            margin: 0 auto;
+        }
+        .cssload-heart:before, .cssload-heart:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 65px;
+            background: var(--primary-color);
+            border-radius: 40px 40px 0 0;
+        }
+        .cssload-heart:before { left: 40px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .cssload-heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Shake Effect */
+        @keyframes containerShake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="question-container container" id="qView">
+        <video class="local-gif" src="Reply me love.mp4" autoplay muted loop playsinline></video>
+        <h1 class="question">Will you be my Valentine, my queen?</h1>
+
+        <div class="button-group">
+            <button class="yes-btn btn" id="yesBtn">Yes</button>
+            <button class="no-btn btn" id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="cssload-main" id="loader">
+        <div class="cssload-heart"></div>
+    </div>
+
+    <div class="result-container container" id="rView">
+        <video class="gif-result" src="Love me.mp4" autoplay loop playsinline></video>
+        <h2>I knew it, my queen! 😍</h2>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const qView = document.getElementById('qView');
+        const loader = document.getElementById('loader');
+        const rView = document.getElementById('rView');
+        const questionText = document.querySelector('.question');
+
+        const messages = [
+            "Are you sure? 🥺",
+            "Think again, my queen... 😢",
+            "Don't do this to me 😭",
+            "Please? 😔",
+            "I'll be heartbroken 💔",
+            "Just click Yes! 😳"
+        ];
+        let msgIdx = 0;
+
+        // Function to move the No button
+        function moveNoButton() {
+            // Switch to fixed positioning so it can jump outside the container
+            noBtn.style.position = 'fixed';
+            
+            // Generate random coordinates within the safe area of the screen
+            const padding = 50;
+            const maxWidth = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxHeight = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxWidth));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxHeight));
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Change message
+            questionText.textContent = messages[msgIdx];
+            msgIdx = (msgIdx + 1) % messages.length;
+
+            // Add a little shake to the screen
+            qView.style.animation = "containerShake 0.3s ease";
+            setTimeout(() => qView.style.animation = "", 300);
+        }
+
+        // Move on hover (desktop) or click (mobile)
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);
+
+        // Success Logic
+        yesBtn.addEventListener('click', () => {
+            qView.style.display = 'none';
+            loader.style.display = 'block';
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                rView.style.display = 'flex';
+                // Trigger video play for mobile compatibility
+                const vid = rView.querySelector('video');
+                if(vid) vid.play();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

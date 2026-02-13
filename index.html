@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Countdown ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        /* Updated to romantic red/pink gradient */
+        background: radial-gradient(circle at top, #ff4d6d, #c9184a);
+        color: white;
+        overflow: hidden;
+    }
+    
+    /* Glass cards */
+    .glass {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(14px);
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .countdown-item {
+        min-width: 90px;
+    }
+    
+    /* Fade animation */
+    .fade-out {
+        animation: fadeOut 2s ease forwards;
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0.95); }
+    }
+    
+    /* Heart Confetti */
+    .confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+            radial-gradient(circle, #fff 1.5px, transparent 1.5px),
+            radial-gradient(circle, #ffb3c1 2px, transparent 2px),
+            radial-gradient(circle, #ff8fa3 1.5px, transparent 1.5px);
+        background-size: 80px 80px;
+        animation: confettiMove 20s linear infinite;
+        opacity: 0.4;
+    }
+    
+    @keyframes confettiMove {
+        from { background-position: 0 0; }
+        to { background-position: 0 1200px; }
+    }
+    
+    /* Floating Hearts instead of Balloons */
+    .heart {
+        position: fixed;
+        bottom: -150px;
+        font-size: 2rem;
+        animation: floatUp 10s linear infinite;
+        opacity: 0.8;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+    }
+    
+    @keyframes floatUp {
+        0% {
+            transform: translateY(0) translateX(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-60vh) translateX(40px) rotate(20deg);
+        }
+        100% {
+            transform: translateY(-120vh) translateX(-20px) rotate(-20deg);
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="confetti"></div>
+
+<div class="heart" style="left:10%; animation-delay:0s;">❤️</div>
+<div class="heart" style="left:25%; animation-delay:3s;">💖</div>
+<div class="heart" style="left:45%; animation-delay:6s;">💘</div>
+<div class="heart" style="left:65%; animation-delay:2s;">✨</div>
+<div class="heart" style="left:85%; animation-delay:5s;">💓</div>
+
+<div id="countdown-screen" class="min-h-screen flex items-center justify-center p-6 text-center">
+    <div class="max-w-2xl w-full">
+        <h2 class="uppercase tracking-widest mb-4 font-semibold text-pink-200">
+            🌹 Valentine's Countdown 🌹
+        </h2>
+
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+            Something Special Awaits
+        </h1>
+
+        <p class="text-white/80 mb-12 text-lg">
+            A romantic surprise is unlocking soon... 💌
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+            <div class="glass p-5 countdown-item">
+                <span id="days" class="text-4xl font-bold block">00</span>
+                <span class="text-xs uppercase tracking-widest text-pink-100">Days</span>
+            </div>
+            <div class="glass p-5 countdown-item">
+                <span id="hours" class="text-4xl font-bold block">00</span>
+                <span class="text-xs uppercase tracking-widest text-pink-100">Hours</span>
+            </div>
+            <div class="glass p-5 countdown-item">
+                <span id="minutes" class="text-4xl font-bold block">00</span>
+                <span class="text-xs uppercase tracking-widest text-pink-100">Minutes</span>
+            </div>
+            <div class="glass p-5 countdown-item">
+                <span id="seconds" class="text-4xl font-bold block">00</span>
+                <span class="text-xs uppercase tracking-widest text-pink-100">Seconds</span>
+            </div>
+        </div>
+
+        <div class="mt-12 italic text-pink-100">
+            🌹 Unlocking on February 14 🌹
+        </div>
+    </div>
+</div>
+
+<div id="birthday-screen" class="min-h-screen hidden flex items-center justify-center text-center p-6">
+    <div>
+        <h1 class="text-6xl md:text-7xl font-black mb-6">
+            💌 Happy Valentine's Day! 💌
+        </h1>
+        <p class="text-xl md:text-2xl text-white/90">
+            You are the most beautiful part of my story... 💖
+        </p>
+    </div>
+</div>
+
+<script>
+/*
+  TARGET: Valentine's Day — Feb 14, 2026
+*/
+const targetDatePH = new Date(
+    new Date("2026-02-14T00:00:00").toLocaleString("en-US", {
+        timeZone: "Asia/Manila"
+    })
+).getTime();
+
+let stageDone = false;
+
+function updateCountdown() {
+    const now = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" })
+    ).getTime();
+
+    const distance = targetDatePH - now;
+
+    if (distance <= 0 && !stageDone) {
+        stageDone = true;
+        showBirthdayScreen();
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((distance / (1000 * 60)) % 60);
+    const seconds = Math.floor((distance / 1000) % 60);
+
+    document.getElementById("days").textContent = String(days).padStart(2, "0");
+    document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+}
+
+function showBirthdayScreen() {
+    const countdown = document.getElementById("countdown-screen");
+    const valentineScreen = document.getElementById("birthday-screen");
+    
+    countdown.classList.add("fade-out");
+
+    setTimeout(() => {
+        countdown.style.display = "none";
+        valentineScreen.classList.remove("hidden");
+        valentineScreen.classList.add("flex");
+
+        // Redirect after 5 seconds
+        setTimeout(() => {
+            // Updated to open Happy-valentine's.html
+            window.location.href = "Happy-valentine's.html";
+        }, 5000);
+
+    }, 2000);
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+</script>
+
+</body>
+</html>
